@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RdRemoteAppsParser</name>
+    </assembly>
+    <members>
+        <!-- Badly formed XML comment ignored for member "T:RdRemoteAppsParser.IRdWebClient" -->
+        <member name="M:RdRemoteAppsParser.IRdWebClient.Connect(System.String,System.String,System.String)">
+            <summary>
+                Connect to server and login.
+            </summary>
+            <param name="domain">
+                RemoteApps domain (
+                <example>https://ra.example.com</example>
+                ).
+            </param>
+            <param name="login">User login.</param>
+            <param name="password">User password.</param>
+        </member>
+        <member name="M:RdRemoteAppsParser.IRdWebClient.GetAllRemoteElements">
+            <summary>
+                Fetch all remote resources.
+            </summary>
+            <returns>Task with root FolderModel object.</returns>
+        </member>
+        <member name="T:RdRemoteAppsParser.Models.AppModel">
+            <summary>
+                Single remote application data.
+            </summary>
+        </member>
+        <member name="M:RdRemoteAppsParser.Models.AppModel.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+                Constructor.
+            </summary>
+            <param name="title">App name.</param>
+            <param name="parentPath">App path without app name.</param>
+            <param name="rdpFileUrl">Url of .rdp file.</param>
+            <param name="pngPathUrl">Url of .png icon.</param>
+        </member>
+        <member name="P:RdRemoteAppsParser.Models.AppModel.PngPathUrl">
+            <summary>
+                Url of .png icon.
+            </summary>
+        </member>
+        <member name="P:RdRemoteAppsParser.Models.AppModel.RdpFileUrl">
+            <summary>
+                Url of .rdp file.
+            </summary>
+        </member>
+        <member name="T:RdRemoteAppsParser.Models.FolderModel">
+            <summary>
+                Remote apps folder data.
+            </summary>
+        </member>
+        <member name="M:RdRemoteAppsParser.Models.FolderModel.#ctor(System.String,System.String,RdRemoteAppsParser.Models.AppModel[],RdRemoteAppsParser.Models.FolderModel[])">
+            <summary>
+                Constructor.
+            </summary>
+            <param name="title">Folder name.</param>
+            <param name="parentPath">Folder path without current folder name.</param>
+            <param name="apps">Apps that current folder contains.</param>
+            <param name="subfolders">Subfoldfers that current folder contains.</param>
+        </member>
+        <member name="P:RdRemoteAppsParser.Models.FolderModel.Apps">
+            <summary>
+                Apps that current folder contains.
+            </summary>
+        </member>
+        <member name="P:RdRemoteAppsParser.Models.FolderModel.Subfolders">
+            <summary>
+                Subfoldfers that current folder contains.
+            </summary>
+        </member>
+        <member name="T:RdRemoteAppsParser.Models.ItemModelBase">
+            <summary>
+                Remote item (folder or app) data.
+            </summary>
+        </member>
+        <member name="M:RdRemoteAppsParser.Models.ItemModelBase.#ctor(System.String,System.String)">
+            <summary>
+                Constructor.
+            </summary>
+            <param name="title">Item name.</param>
+            <param name="parentPath">Item path without current item name.</param>
+        </member>
+        <member name="P:RdRemoteAppsParser.Models.ItemModelBase.Path">
+            <summary>
+                Item path related to server root.
+            </summary>
+        </member>
+        <member name="P:RdRemoteAppsParser.Models.ItemModelBase.Title">
+            <summary>
+                Item name.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:RdRemoteAppsParser.RdWebClient" -->
+        <member name="M:RdRemoteAppsParser.RdWebClient.#ctor(System.Net.Http.HttpMessageHandler)">
+            <summary>
+                Constructor.
+            </summary>
+            <param name="httpClientHandler">Can be use in case of proxy.</param>
+        </member>
+        <member name="M:RdRemoteAppsParser.RdWebClient.Dispose">
+            <summary>
+                Dispose.
+            </summary>
+        </member>
+        <member name="M:RdRemoteAppsParser.RdWebClient.Connect(System.String,System.String,System.String)">
+            <summary>
+                Connect to server and login.
+            </summary>
+            <param name="domain">
+                RemoteApps domain (
+                <example>https://ra.example.com</example>
+                ).
+            </param>
+            <param name="login">User login.</param>
+            <param name="password">User password.</param>
+        </member>
+        <member name="M:RdRemoteAppsParser.RdWebClient.GetAllRemoteElements">
+            <summary>
+                Fetch all remote resources.
+            </summary>
+            <returns>Task with root FolderModel object.</returns>
+        </member>
+    </members>
+</doc>
