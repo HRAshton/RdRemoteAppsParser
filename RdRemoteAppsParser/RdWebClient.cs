@@ -12,7 +12,7 @@ using RdRemoteAppsParser.Models;
 namespace RdRemoteAppsParser
 {
     /// <summary>
-    ///     RemoteApps web client & parser class.
+    ///     RemoteApps web client 'n parser class.
     /// </summary>
     public class RdWebClient : IRdWebClient, IDisposable
     {
@@ -99,17 +99,18 @@ namespace RdRemoteAppsParser
             var path = parentPath + folderName;
             var root = await FetchRootFeed(path);
 
-            var subfolders = root.Elements()
+            var subfolders = root!.Elements()
                 .SingleOrDefault(x => x.Name.LocalName == "SubFolders")?.Elements()
                 .Select(x => x.Attribute("Name")?.Value)
                 .Where(x => x != null)
                 .AsParallel()
-                .Select(nameWithSlash => FetchFolder(nameWithSlash, path).Result)
+                .Select(nameWithSlash => FetchFolder(nameWithSlash!, path).Result)
                 .ToArray();
 
             var apps = root.Elements()
                 .Single(x => x.Name.LocalName == "Resources").Elements()
-                .Select(x => ParseAppModel(x, path))
+                .AsParallel()
+                .Select(x => ParseAppModel(x, path).Result)
                 .ToArray();
 
             var title = folderName;
@@ -131,7 +132,7 @@ namespace RdRemoteAppsParser
             return root;
         }
 
-        private static AppModel ParseAppModel(XElement resourceElement, string parentPath)
+        private async Task<AppModel> ParseAppModel(XElement resourceElement, string parentPath)
         {
             var title = resourceElement.Attribute("Title")?.Value;
             var rdpFileUrl = resourceElement.Elements()
@@ -149,7 +150,11 @@ namespace RdRemoteAppsParser
                                  .Attribute("FileURL")?.Value
                              ?? string.Empty;
 
-            var app = new AppModel(title, parentPath, rdpFileUrl, pngIconUrl);
+            var rdpFileRawTask = client.GetByteArrayAsync(rdpFileUrl);
+            var pngFileRawTask = client.GetByteArrayAsync(pngIconUrl);
+            await Task.WhenAll(rdpFileRawTask, pngFileRawTask);
+
+            var app = new AppModel(title, parentPath, rdpFileRawTask.Result, pngFileRawTask.Result);
 
             Debug.WriteLine("App added: " + title);
             return app;

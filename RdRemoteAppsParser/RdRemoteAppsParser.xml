@@ -28,23 +28,23 @@
                 Single remote application data.
             </summary>
         </member>
-        <member name="M:RdRemoteAppsParser.Models.AppModel.#ctor(System.String,System.String,System.String,System.String)">
+        <member name="M:RdRemoteAppsParser.Models.AppModel.#ctor(System.String,System.String,System.Byte[],System.Byte[])">
             <summary>
                 Constructor.
             </summary>
             <param name="title">App name.</param>
             <param name="parentPath">App path without app name.</param>
-            <param name="rdpFileUrl">Url of .rdp file.</param>
-            <param name="pngPathUrl">Url of .png icon.</param>
+            <param name="pngFileRaw">Raw png icon.</param>
+            <param name="rdpFileRaw">Raw .rdp file.</param>
         </member>
-        <member name="P:RdRemoteAppsParser.Models.AppModel.PngPathUrl">
+        <member name="P:RdRemoteAppsParser.Models.AppModel.PngFileRaw">
             <summary>
-                Url of .png icon.
+                Raw png icon.
             </summary>
         </member>
-        <member name="P:RdRemoteAppsParser.Models.AppModel.RdpFileUrl">
+        <member name="P:RdRemoteAppsParser.Models.AppModel.RdpFileRaw">
             <summary>
-                Url of .rdp file.
+                Raw .rdp file.
             </summary>
         </member>
         <member name="T:RdRemoteAppsParser.Models.FolderModel">
