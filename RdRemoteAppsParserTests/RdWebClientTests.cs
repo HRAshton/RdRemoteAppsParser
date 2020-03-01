@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RdRemoteAppsParser.Models;
 
 // ReSharper disable once CheckNamespace
 namespace RdRemoteAppsParser.Tests
@@ -48,8 +51,8 @@ namespace RdRemoteAppsParser.Tests
             var folderModel = client.GetAllRemoteElements().Result;
 
             var contsinsApps = folderModel.Apps.Any();
-            var allPngInRootAreValid = folderModel.Apps.All(app => app.PngFileRaw.Length > 8);
-            var allRdpInRootAreValid = folderModel.Apps.All(app => app.RdpFileRaw.Length > 8);
+            var allPngInRootAreValid = folderModel.Apps.All(IsPngRawValid);
+            var allRdpInRootAreValid = folderModel.Apps.All(IsRdpRawValid);
             var appsPathesAreValid = folderModel.Apps.All(app =>
                 Regex.IsMatch(app.Path, @"^\/\/[^\/]+$", RegexOptions.Compiled | RegexOptions.Singleline));
             var foldersPathesAreValid = folderModel.Subfolders.All(app =>
@@ -60,6 +63,23 @@ namespace RdRemoteAppsParser.Tests
             Assert.IsTrue(allRdpInRootAreValid);
             Assert.IsTrue(appsPathesAreValid);
             Assert.IsTrue(foldersPathesAreValid);
+        }
+
+
+        private static bool IsPngRawValid(AppModel appModel)
+        {
+            var s = new string(appModel.PngFileRaw.Take(8).Select(c => (char) c).ToArray());
+            var isPngRawValid = s.Contains("PNG");
+
+            return isPngRawValid;
+        }
+
+        private static bool IsRdpRawValid(AppModel appModel)
+        {
+            var s = new string(appModel.RdpFileRaw.Select(c => (char) c).ToArray());
+            var isRdpRawValid = s.Contains("signature");
+
+            return isRdpRawValid;
         }
     }
 }
