@@ -4,7 +4,7 @@ using RdRemoteAppsParser.Models;
 namespace RdRemoteAppsParser
 {
     /// <summary>
-    ///     RemoteApps web client & parser class.
+    ///     RemoteApps web client 'n parser class.
     /// </summary>
     public interface IRdWebClient
     {

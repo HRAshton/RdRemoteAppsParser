@@ -10,22 +10,22 @@
         /// </summary>
         /// <param name="title">App name.</param>
         /// <param name="parentPath">App path without app name.</param>
-        /// <param name="rdpFileUrl">Url of .rdp file.</param>
-        /// <param name="pngPathUrl">Url of .png icon.</param>
-        public AppModel(string title, string parentPath, string rdpFileUrl, string pngPathUrl) : base(parentPath, title)
+        /// <param name="pngFileRaw">Raw png icon.</param>
+        /// <param name="rdpFileRaw">Raw .rdp file.</param>
+        public AppModel(string title, string parentPath, byte[] pngFileRaw, byte[] rdpFileRaw) : base(parentPath, title)
         {
-            PngPathUrl = pngPathUrl;
-            RdpFileUrl = rdpFileUrl;
+            PngFileRaw = pngFileRaw;
+            RdpFileRaw = rdpFileRaw;
         }
 
         /// <summary>
-        ///     Url of .png icon.
+        ///     Raw png icon.
         /// </summary>
-        public string PngPathUrl { get; set; }
+        public byte[] PngFileRaw { get; set; }
 
         /// <summary>
-        ///     Url of .rdp file.
+        ///     Raw .rdp file.
         /// </summary>
-        public string? RdpFileUrl { get; set; }
+        public byte[] RdpFileRaw { get; set; }
     }
 }

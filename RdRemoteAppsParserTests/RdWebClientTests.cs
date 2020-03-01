@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -50,10 +48,8 @@ namespace RdRemoteAppsParser.Tests
             var folderModel = client.GetAllRemoteElements().Result;
 
             var contsinsApps = folderModel.Apps.Any();
-            var allPngInRootAreValid = folderModel.Apps.All(app =>
-                Regex.IsMatch(app.PngPathUrl, @"^\/(.*?).png$", RegexOptions.Compiled | RegexOptions.Singleline));
-            var allRdpInRootAreValid = folderModel.Apps.All(app =>
-                Regex.IsMatch(app.RdpFileUrl, @"^\/(.*?).rdp$", RegexOptions.Compiled | RegexOptions.Singleline));
+            var allPngInRootAreValid = folderModel.Apps.All(app => app.PngFileRaw.Length > 8);
+            var allRdpInRootAreValid = folderModel.Apps.All(app => app.RdpFileRaw.Length > 8);
             var appsPathesAreValid = folderModel.Apps.All(app =>
                 Regex.IsMatch(app.Path, @"^\/\/[^\/]+$", RegexOptions.Compiled | RegexOptions.Singleline));
             var foldersPathesAreValid = folderModel.Subfolders.All(app =>
