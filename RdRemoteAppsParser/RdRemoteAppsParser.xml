@@ -4,7 +4,11 @@
         <name>RdRemoteAppsParser</name>
     </assembly>
     <members>
-        <!-- Badly formed XML comment ignored for member "T:RdRemoteAppsParser.IRdWebClient" -->
+        <member name="T:RdRemoteAppsParser.IRdWebClient">
+            <summary>
+                RemoteApps web client 'n parser class.
+            </summary>
+        </member>
         <member name="M:RdRemoteAppsParser.IRdWebClient.Connect(System.String,System.String,System.String)">
             <summary>
                 Connect to server and login.
@@ -93,7 +97,11 @@
                 Item name.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:RdRemoteAppsParser.RdWebClient" -->
+        <member name="T:RdRemoteAppsParser.RdWebClient">
+            <summary>
+                RemoteApps web client 'n parser class.
+            </summary>
+        </member>
         <member name="M:RdRemoteAppsParser.RdWebClient.#ctor(System.Net.Http.HttpMessageHandler)">
             <summary>
                 Constructor.

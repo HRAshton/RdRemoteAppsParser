@@ -99,19 +99,24 @@ namespace RdRemoteAppsParser
             var path = parentPath + folderName;
             var root = await FetchRootFeed(path);
 
-            var subfolders = root!.Elements()
+            var subfoldersTasks = root!.Elements()
                 .SingleOrDefault(x => x.Name.LocalName == "SubFolders")?.Elements()
                 .Select(x => x.Attribute("Name")?.Value)
                 .Where(x => x != null)
-                .AsParallel()
-                .Select(nameWithSlash => FetchFolder(nameWithSlash!, path).Result)
+                .Select(nameWithSlash => FetchFolder(nameWithSlash!, path))
                 .ToArray();
 
-            var apps = root.Elements()
+            var appsTasks = root.Elements()
                 .Single(x => x.Name.LocalName == "Resources").Elements()
-                .AsParallel()
-                .Select(x => ParseAppModel(x, path).Result)
+                .Select(x => ParseAppModel(x, path))
                 .ToArray();
+            
+            await Task.WhenAll(appsTasks);
+            if (subfoldersTasks != null)
+                await Task.WhenAll(subfoldersTasks);
+
+            var subfolders = subfoldersTasks?.Select(x => x.Result).ToArray();
+            var apps = appsTasks.Select(x => x.Result).ToArray();
 
             var title = folderName;
             var folder = new FolderModel(title.Substring(1), parentPath, apps, subfolders ?? new FolderModel[0]);
@@ -154,9 +159,9 @@ namespace RdRemoteAppsParser
             var pngFileRawTask = client.GetByteArrayAsync(pngIconUrl);
             await Task.WhenAll(rdpFileRawTask, pngFileRawTask);
 
-            var app = new AppModel(title, parentPath, rdpFileRawTask.Result, pngFileRawTask.Result);
+            var app = new AppModel(title, parentPath, pngFileRawTask.Result, rdpFileRawTask.Result);
 
-            Debug.WriteLine("App added: " + title);
+            Debug.WriteLine($"App added: {parentPath}/{title}");
             return app;
         }
     }
